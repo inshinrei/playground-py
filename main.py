@@ -1,6 +1,5 @@
 def apply_discount(price, discount):
     price_with_discount = int(price * (1.0 - discount))
-
     assert 0 <= price_with_discount <= price
 
     return price_with_discount
