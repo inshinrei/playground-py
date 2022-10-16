@@ -1,16 +1,11 @@
-# This is a sample Python script.
+def apply_discount(price, discount):
+    price_with_discount = int(price * (1.0 - discount))
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+    assert 0 <= price_with_discount <= price
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+    return price_with_discount
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    print(apply_discount(149, 0.25))
+    print(apply_discount(149, 2.0))
