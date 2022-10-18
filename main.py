@@ -12,3 +12,7 @@ if __name__ == '__main__':
 
     for text in repeater('text', 5):
         print(text)
+
+    iterator = ("second text" for _ in range(5))
+    for text in iterator:
+        print(text)
