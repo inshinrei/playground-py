@@ -5,14 +5,6 @@ def apply_discount(price, discount):
 
 
 if __name__ == '__main__':
-    def repeater(text, repeats):
-        for _ in range(repeats):
-            yield text
-
-
-    for text in repeater('text', 5):
-        print(text)
-
     iterator = ("second text" for _ in range(5))
     for text in iterator:
         print(text)
