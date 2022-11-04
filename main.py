@@ -1,11 +1,15 @@
 """
-Given a binary tree, determine if it is
-height-balanced
 
-Input: root = [3,9,20,null,null,15,7]
-Output: true
 """
 
 
 if __name__ == '__main__':
+    def is_power_of_four(n: int) -> bool:
+        current_pick = 4
+        while current_pick <= n:
+            if current_pick == n:
+                return True
+            current_pick *= 4
+        return False
 
+    print(is_power_of_four(16))
