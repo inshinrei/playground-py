@@ -14,7 +14,7 @@ if __name__ == '__main__':
     plt.ylabel('# of times')
     plt.ticklabel_format(useOffset=False)
 
-    plt.axis([2016.5, 2018.5, 499, 506])
+    plt.axis([2016.5, 2018.5, 0, 550])
     plt.title('tt')
 
     plt.show()
