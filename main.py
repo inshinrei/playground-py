@@ -2,25 +2,19 @@ from matplotlib import pyplot as plt
 from collections import Counter
 
 
-movies = ["Annie Hall", "Ben-Hur", "Casablanca", "Gandhi", "West Side Story"]
-num_oscars = [5, 11, 3, 8, 10]
-grades = [83, 95, 91, 87, 70, 0, 85, 82, 100, 67, 73, 77, 0]
-mentions = [500, 505]
-years = [2017, 2018]
-variance     = [1, 2, 4, 8, 16, 32, 64, 128, 256]
-bias_squared = [256, 128, 64, 32, 16, 8, 4, 2, 1]
-total_error  = [x + y for x, y in zip(variance, bias_squared)]
-xs = [i for i, _ in enumerate(variance)]
+friends = [ 70,  65,  72,  63,  71,  64,  60,  64,  67]
+minutes = [175, 170, 205, 120, 220, 130, 105, 145, 190]
+labels =  ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
 
 
 if __name__ == '__main__':
-    plt.plot(xs, variance, 'g-', label='variance')
-    plt.plot(xs, bias_squared, 'r-.', label='bias^2')
-    plt.plot(xs, total_error, 'b:', label='total error')
+    plt.scatter(friends, minutes)
 
-    plt.legend(loc=9)
-    plt.xlabel('model complexity')
-    plt.xticks([])
-    plt.title('bias var')
+    for label, friend_count, minute_count in zip(labels, friends, minutes):
+        plt.annotate(label, xy=(friend_count, minute_count), xytext=(5, -5), textcoords="offset")
+
+    plt.title('daily')
+    plt.xlabel('#')
+    plt.ylabel('spent')
 
     plt.show()
