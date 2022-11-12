@@ -62,3 +62,11 @@ assert vectors_mean([[1, 2], [3, 4], [5, 6]]) == [3, 4]
 assert dot([1, 2, 3], [4, 5, 6]) == 32
 assert sum_of_squares([1, 2, 3]) == 14
 assert magnitude([3, 4]) == 5
+
+
+def squared_distance(v: Vector, w: Vector) -> float:
+    return sum_of_squares(subtract(v, w))
+
+
+def distance(v: Vector, w: Vector) -> float:
+    return math.sqrt(squared_distance(v, w))
