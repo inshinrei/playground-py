@@ -1,8 +1,6 @@
 from collections import Counter
 from typing import List
 
-from liner_algebra.vector import sum_of_squares
-
 import math
 
 
@@ -35,7 +33,7 @@ def quantile(xs: List[float], p: float) -> float:
 
 def mode(x: List[float]) -> List[float]:
     counts = Counter(x)
-    max_count = max(counts.values)
+    max_count = max(counts.values())
     return [x_i for x_i, count in counts.items() if count == max_count]
 
 
@@ -49,6 +47,8 @@ def de_mean(xs: List[float]) -> List[float]:
 
 
 def variance(xs: List[float]) -> float:
+    from liner_algebra.vector import sum_of_squares
+
     assert len(xs) >= 2, 'variance requires at least two elems'
 
     n = len(xs)
@@ -62,3 +62,21 @@ def standard_deviation(xs: List[float]) -> float:
 
 def interquartile_range(xs: List[float]) -> float:
     return quantile(xs, 0.75 - quantile(xs, 0.25))
+
+
+def covariance(xs: List[float], ys: List[float]) -> float:
+    from liner_algebra.vector import dot
+
+    assert len(xs) == len(ys), 'must be the same length'
+
+    return dot(de_mean(xs), de_mean(ys)) / (len(xs) - 1)
+
+
+def correlation(xs: List[float], ys: List[float]) -> float:
+    xs_standard_deviation = standard_deviation(xs)
+    ys_standard_deviation = standard_deviation(ys)
+
+    if (xs_standard_deviation > 0 and ys_standard_deviation > 0):
+        return covariance(xs, ys) / xs_standard_deviation / ys_standard_deviation
+    else:
+        return 0
