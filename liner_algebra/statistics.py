@@ -100,3 +100,27 @@ def normal_probability_between(low: float, high: float, mu: float = 0, sigma: fl
 def normal_probability_outside(low: float, high: float, mu: float = 0, sigma: float = 1) -> float:
     return 1 - normal_probability_between(low, high, mu, sigma)
 
+
+def normal_upper_bound(probability: float, mu: float = 0, sigma: float = 1) -> float:
+    return inverse_normal_cdf(probability, mu, sigma)
+
+
+def normal_lower_bound(probability: float, mu: float = 0, sigma: float = 1) -> float:
+    return inverse_normal_cdf(1 - probability, mu, sigma)
+
+
+def normal_two_sided_bounds(probability: float, mu: float, sigma: float = 1) -> Tuple[float, float]:
+    tail_probability = (1 - probability) / 2
+    upper_bound = normal_lower_bound(tail_probability, mu, sigma)
+    lower_bound = normal_upper_bound(tail_probability, mu, sigma)
+
+    return lower_bound, upper_bound
+
+
+mu_0, sigma_0 = normal_approximation_to_binomial(1000, 0.5)
+assert mu_0 == 500
+assert 15.8 < sigma_0 < 15.9
+
+lower_bound_0, upper_bound_0 = normal_two_sided_bounds(0.95, mu_0, sigma_0)
+assert 468.5 < lower_bound_0 < 469.5
+assert 530.5 < upper_bound_0 < 531.5
