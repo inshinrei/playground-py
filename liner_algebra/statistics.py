@@ -1,5 +1,6 @@
 from collections import Counter
-from typing import List
+from typing import List, Tuple
+from liner_algebra.probability import normal_cdf, inverse_normal_cdf
 
 import math
 
@@ -80,3 +81,22 @@ def correlation(xs: List[float], ys: List[float]) -> float:
         return covariance(xs, ys) / xs_standard_deviation / ys_standard_deviation
     else:
         return 0
+
+
+def normal_approximation_to_binomial(n: int, p: float) -> Tuple[float, float]:
+    mu = p * n
+    sigma = math.sqrt(p * (1 - p) * n)
+    return mu, sigma
+
+
+def normal_probability_above(low: float, mu: float = 0, sigma: float = 1) -> float:
+    return 1 - normal_cdf(low, mu, sigma)
+
+
+def normal_probability_between(low: float, high: float, mu: float = 0, sigma: float = 1) -> float:
+    return normal_cdf(high, mu, sigma) - normal_cdf(low, mu, sigma)
+
+
+def normal_probability_outside(low: float, high: float, mu: float = 0, sigma: float = 1) -> float:
+    return 1 - normal_probability_between(low, high, mu, sigma)
+
