@@ -93,6 +93,9 @@ def normal_probability_above(low: float, mu: float = 0, sigma: float = 1) -> flo
     return 1 - normal_cdf(low, mu, sigma)
 
 
+normal_probability_below = normal_cdf
+
+
 def normal_probability_between(low: float, high: float, mu: float = 0, sigma: float = 1) -> float:
     return normal_cdf(high, mu, sigma) - normal_cdf(low, mu, sigma)
 
