@@ -124,3 +124,9 @@ assert 15.8 < sigma_0 < 15.9
 lower_bound_0, upper_bound_0 = normal_two_sided_bounds(0.95, mu_0, sigma_0)
 assert 468.5 < lower_bound_0 < 469.5
 assert 530.5 < upper_bound_0 < 531.5
+
+low_0, high_0 = normal_two_sided_bounds(0.95, mu_0, sigma_0)
+mu_1, sigma_1 = normal_approximation_to_binomial(1000, 0.55)
+type_0_probability = normal_probability_between(low_0, high_0, mu_1, sigma_1)
+power_0 = 1 - type_0_probability
+assert 0.886 < power_0 < 0.888
