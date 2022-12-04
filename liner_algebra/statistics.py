@@ -133,3 +133,10 @@ mu_1, sigma_1 = normal_approximation_to_binomial(1000, 0.55)
 type_0_probability = normal_probability_between(low_0, high_0, mu_1, sigma_1)
 power_0 = 1 - type_0_probability
 assert 0.886 < power_0 < 0.888
+
+
+def two_sided_p_value(x: float, mu: float = 0, sigma: float = 1) -> float:
+    if x >= mu:
+        return 2 * normal_probability_above(x, mu, sigma)
+    else:
+        return 2 * normal_probability_below(x, mu, sigma)
