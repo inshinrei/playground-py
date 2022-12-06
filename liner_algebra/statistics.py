@@ -1,9 +1,9 @@
+import math
 import random
 from collections import Counter
 from typing import List, Tuple
-from liner_algebra.probability import normal_cdf, inverse_normal_cdf
 
-import math
+from liner_algebra.probability import normal_cdf, inverse_normal_cdf
 
 
 def mean(xs: List[float]) -> float:
