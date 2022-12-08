@@ -1,4 +1,5 @@
-from typing import Callable
+import random
+from typing import Callable, TypeVar, Iterator, List
 
 from liner_algebra.vector import Vector, dot, add, scalar_multiply
 
@@ -43,3 +44,17 @@ def linear_gradient(x: float, y: float, theta: Vector) -> Vector:
     predicted = slope * x + intercept
     error = (predicted - y)
     return [2 * error * x, 2 * error]
+
+
+T = TypeVar('T')
+
+
+def mini_batches(dataset: List[T], batch_size: int, shuffle: bool = True) -> Iterator[List[T]]:
+    batch_starts = [start for start in range(0, len(dataset), batch_size)]
+
+    if shuffle:
+        random.shuffle(batch_starts)
+
+    for start in batch_starts:
+        end = start + batch_size
+        yield dataset[start:end]
