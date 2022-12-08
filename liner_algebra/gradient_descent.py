@@ -1,6 +1,6 @@
 from typing import Callable
 
-from liner_algebra.vector import Vector, dot
+from liner_algebra.vector import Vector, dot, add, scalar_multiply
 
 
 def sum_of_squares(v: Vector) -> float:
@@ -26,3 +26,20 @@ def derivative(x: float) -> float:
 
 def estimate_gradient(f: Callable[[Vector], float], V: Vector, h: float = 0.0001):
     return [partial_difference_quotient(f, V, i, h) for i in range(len(V))]
+
+
+def gradient_step(V: Vector, gradient: Vector, step_size: float) -> Vector:
+    assert len(V) == len(gradient)
+    step = scalar_multiply(step_size, gradient)
+    return add(V, step)
+
+
+def sum_of_squares_gradient(V: Vector) -> Vector:
+    return [2 * v_i for v_i in V]
+
+
+def linear_gradient(x: float, y: float, theta: Vector) -> Vector:
+    slope, intercept = theta
+    predicted = slope * x + intercept
+    error = (predicted - y)
+    return [2 * error * x, 2 * error]
