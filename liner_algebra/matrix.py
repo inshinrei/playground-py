@@ -1,5 +1,6 @@
 from typing import List, Tuple, Callable
 
+from liner_algebra.statistics import correlation
 from liner_algebra.vector import Vector
 
 Matrix = List[List[float]]
@@ -42,3 +43,10 @@ assert make_identity_matrix(5) == [
     [0, 0, 0, 1, 0],
     [0, 0, 0, 0, 1],
 ]
+
+
+def correlation_matrix(data: List[Vector]) -> Matrix:
+    def correlation_ij(i: int, j: int) -> float:
+        return correlation(data[i], data[j])
+
+    return make_matrix(len(data), len(data), correlation_ij)
