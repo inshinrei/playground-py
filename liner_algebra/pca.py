@@ -32,3 +32,8 @@ def rescale(data: List[Vector]) -> List[Vector]:
                 v[i] = (v[i] - means[i]) / stdevs[i]
 
     return rescaled
+
+
+means_1, stdevs_1 = scale(rescale(vectors))
+assert means_1 == [0, 0, 1]
+assert stdevs_1 == [1, 1, 0]
