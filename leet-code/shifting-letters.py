@@ -1,7 +1,7 @@
 from typing import List
 
 
-def shift_letter(c: str, times) -> str:
+def shift_letter(c: str, times: int) -> str:
     index = ord(c) - ord('a')
     return chr(ord('a') + (index + times) % 26)
 
