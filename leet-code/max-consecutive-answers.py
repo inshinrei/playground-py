@@ -12,3 +12,8 @@ def max_consecutive_answers(answer_key: str, k: int) -> int:
         else:
             result += 1
     return result
+
+
+assert max_consecutive_answers('TTFF', 2) == 4
+assert max_consecutive_answers('TFFT', 1) == 3
+assert max_consecutive_answers('TTFTTFTT', 1) == 5
