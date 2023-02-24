@@ -11,3 +11,8 @@ def split_string(string: str) -> bool:
                 return True
         return False
     return backtrack(string, 0, -1, 0)
+
+
+assert split_string('1234') is False
+assert split_string('050043') is True
+assert split_string('9080701') is False
