@@ -9,4 +9,4 @@ with open('./input', encoding='utf-8') as input_data:
         df = np.where(df < 0, 6, df)
         if new:
             df = np.hstack([df, np.full(new, 8)])
-    print(str(df.shape).replace(',', ''))
+    assert str(df.shape).replace(',', '') == '(362346)'

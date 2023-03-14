@@ -27,5 +27,5 @@ with open('./input.txt', encoding='utf-8') as input_data:
                         b[x, y] = -1
                         if is_win(b):
                             print(f'board {i} win with score {score(b)}')
-                            print(score(b) * d)
+                            assert score(b) * d == 10374
                             exit()

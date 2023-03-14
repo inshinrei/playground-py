@@ -15,4 +15,4 @@ with open('./input', 'r', encoding='utf-8') as input_data:
             flashed = np.logical_or(flashed, flashing)
         df[flashed] = 0
         total += np.sum(flashed)
-    print(total)
+    assert total == 1729

@@ -14,4 +14,4 @@ with open('./input', 'r', encoding='utf-8') as input_data:
         new += template[-1]
         template = new
     count = Counter(template).most_common()
-    print(count[0][1] - count[-1][1])
+    assert count[0][1] - count[-1][1] == 2435

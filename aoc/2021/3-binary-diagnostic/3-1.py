@@ -12,4 +12,4 @@ with open('./input', 'r', encoding='utf-8') as input_data:
             gamma += 1
         else:
             eps += 1
-    print(gamma * eps)
+    assert gamma * eps == 3374136

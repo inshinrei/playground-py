@@ -10,4 +10,4 @@ with open('./input', 'r', encoding='utf-8') as input_data:
             (df < pad[0:-2, 1:-1]).astype(int) +
             (df < pad[2:, 1:-1]).astype(int)
     )
-    print((df + 1)[mask == 4].sum())
+    assert (df + 1)[mask == 4].sum() == 550

@@ -20,4 +20,4 @@ def count_points(line: str) -> int:
 
 with open('./input', 'r', encoding='utf-8') as input_data:
     data = input_data.read().splitlines()
-    print(sum(count_points(r) for r in data))
+    assert sum(count_points(r) for r in data) == 299793

@@ -13,4 +13,4 @@ with open('./input', 'r', encoding='utf-8') as input_data:
         else:
             raise ValueError('Invalid command.')
 
-    print(h * d)
+    assert h * d == 1962940

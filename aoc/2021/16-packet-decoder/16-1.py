@@ -50,7 +50,7 @@ def add_versions(packets):
     total = 0
     for p in packets:
         total += p.version
-        total += add_versions(p.sub_packets)
+        total += add_versions(p.sub)
     return total
 
 
@@ -58,4 +58,4 @@ with open('./input', 'r', encoding='utf-8') as input_data:
     data = input_data.read().strip()
     bits = bin(int(data, 16))[2:].zfill(len(data) * 4)
     packets = parse_packet(bits)
-    print(add_versions([packets]))
+    assert add_versions([packets]) == 843

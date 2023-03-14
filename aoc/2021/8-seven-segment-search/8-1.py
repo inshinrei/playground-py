@@ -12,4 +12,4 @@ with open('./input', 'r', encoding='utf-8') as input_data:
         is7 = (nb_segments == 3).sum()
         is8 = (nb_segments == 7).sum()
         total += is1 + is4 + is7 + is8
-    print(total)
+    assert total == 416

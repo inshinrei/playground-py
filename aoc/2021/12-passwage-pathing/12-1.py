@@ -24,4 +24,4 @@ with open('./input.txt', 'r', encoding='utf-8') as input_data:
         return found_paths
 
 
-    print(len(find_paths(False)))
+    assert len(find_paths(False)) == 119

@@ -11,4 +11,4 @@ with open('./input', 'r', encoding='utf-8') as input_data:
             coords = {(x, y) for x, y in coords if y < v} | {(x, v - (y - v)) for x, y in coords if y >= v}
         elif axis == 'x':
             coords = {(x, y) for x, y in coords if x < v} | {(v - (x - v), y) for x, y in coords if x >= v}
-    print(len(coords))
+    assert len(coords) == 724

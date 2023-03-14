@@ -14,4 +14,4 @@ for init_vx in range(1, x2 + 1):
             y += vy
             vx = max(0, vx - 1)
             vy -= 1
-print(best_y)
+assert best_y == 0
