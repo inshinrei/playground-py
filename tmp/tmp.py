@@ -11,4 +11,3 @@ def compute_reciprocals(values):
 
 
 vs = np.random.randint(1, 10, size=5)
-print(compute_reciprocals(vs))
