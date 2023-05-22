@@ -10,4 +10,4 @@ def compute_reciprocals(values):
     return output
 
 
-vs = np.random.randint(1, 10, size=5)
+vs = np.random.randint(1, 10, size=2)
