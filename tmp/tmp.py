@@ -1,13 +1,9 @@
+import matplotlib.pyplot as plt
 import numpy as np
 
-np.random.seed(0)
-
-
-def compute_reciprocals(values):
-    output = np.empty(len(values))
-    for i in range(len(values)):
-        output[i] = 1.0 / values[i]
-    return output
-
-
-vs = np.random.randint(1, 10, size=2)
+x = np.linspace(0, 5, 50)
+y = np.linspace(0, 5, 50)[:, np.newaxis]
+z = np.sin(x) ** 10 + np.cos(10 + y * x) * np.cos(x)
+plt.imshow(z, origin='lower', extent=[0, 5, 0, 5], cmap='viridis')
+plt.colorbar()
+plt.show()
