@@ -16,3 +16,4 @@ area_dict = {'California': 423967, 'Texas': 695662, 'New York': 141297,
              'Florida': 170312, 'Illinois': 149995}
 
 print(pd.DataFrame({'p': pd.Series(population_dict), 'a': pd.Series(area_dict)}))
+print(pd.Series(np.random.RandomState(42).randint(0, 10, 4)))
