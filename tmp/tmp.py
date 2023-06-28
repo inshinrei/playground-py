@@ -25,4 +25,9 @@ populations = [33871648, 37253956,
                18976457, 19378102,
                20851820, 25145561]
 
-print(pd.Series(populations, index=index))
+
+# print(pd.Series(populations, index=index))
+
+def make_df(cols, ind):
+    data = {c: [str(c) + str(i) for i in ind] for c in cols}
+    return pd.DataFrame(data, ind)
