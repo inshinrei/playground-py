@@ -15,5 +15,14 @@ population_dict = {'California': 38332521,
 area_dict = {'California': 423967, 'Texas': 695662, 'New York': 141297,
              'Florida': 170312, 'Illinois': 149995}
 
-print(pd.DataFrame({'p': pd.Series(population_dict), 'a': pd.Series(area_dict)}))
-print(pd.Series(np.random.RandomState(42).randint(0, 10, 4)))
+# print(pd.DataFrame({'p': pd.Series(population_dict), 'a': pd.Series(area_dict)}))
+# print(pd.Series(np.random.RandomState(42).randint(0, 10, 4)))
+
+index = [('California', 2000), ('California', 2010),
+         ('New York', 2000), ('New York', 2010),
+         ('Texas', 2000), ('Texas', 2010)]
+populations = [33871648, 37253956,
+               18976457, 19378102,
+               20851820, 25145561]
+
+print(pd.Series(populations, index=index))
