@@ -49,3 +49,16 @@ quartiles = np.percentile(births['births'], [25, 50, 75])
 mu = quartiles[1]
 sig = 0.74 * (quartiles[2] - quartiles[0])
 births = births.query('(births > @mu - 5 * @sig) & (births < @mu + 5 * @sig)')
+
+goog = data.DataReader('GOOG', start='2004', end='2016',
+                       data_source='google')
+goog.head()
+
+fig, ax = plt.subplots(2)
+data = goog.iloc[:10]
+
+data.asfreq('D').plot(ax=ax[0], marker='o')
+
+data.asfreq('D', method='bfill').plot(ax=ax[1], style='-o')
+data.asfreq('D', method='ffill').plot(ax=ax[1], style='--o')
+ax[1].legend(["back-fill", "forward-fill"]);
