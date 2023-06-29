@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # print(pd.Series([0.25, 0.5, 0.75, 1.0]))
 # print(pd.Series([0.25, 0.3, 1.2, 1.3], index=['a', 'b', 'c', 'd']))
@@ -31,3 +33,14 @@ populations = [33871648, 37253956,
 def make_df(cols, ind):
     data = {c: [str(c) + str(i) for i in ind] for c in cols}
     return pd.DataFrame(data, ind)
+
+
+births = pd.read_csv('mocks/births.csv')
+print(births.head())
+births['decade'] = 10 * (births['year'] // 10)
+births.pivot_table('births', index='decade', columns='gender', aggfunc='sum')
+
+sns.set()
+births.pivot_table('births', index='year', columns='gender', aggfunc='sum').plot()
+plt.ylabel('total births per year')
+plt.show()
