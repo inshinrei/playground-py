@@ -50,15 +50,7 @@ mu = quartiles[1]
 sig = 0.74 * (quartiles[2] - quartiles[0])
 births = births.query('(births > @mu - 5 * @sig) & (births < @mu + 5 * @sig)')
 
-goog = data.DataReader('GOOG', start='2004', end='2016',
-                       data_source='google')
-goog.head()
-
-fig, ax = plt.subplots(2)
-data = goog.iloc[:10]
-
-data.asfreq('D').plot(ax=ax[0], marker='o')
-
-data.asfreq('D', method='bfill').plot(ax=ax[1], style='-o')
-data.asfreq('D', method='ffill').plot(ax=ax[1], style='--o')
-ax[1].legend(["back-fill", "forward-fill"]);
+df1, df2, df3, df4, df5 = (pd.DataFrame(np.random.RandomState(42).randint(0, 1000, (100, 3)))
+                           for i in range(5))
+result1 = -df1 * df2 / (df3 + df4) - df5
+result2 = pd.eval('-df1 * df2 / (df3 + df4) - df5')
