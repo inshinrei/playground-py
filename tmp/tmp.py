@@ -44,3 +44,8 @@ sns.set()
 births.pivot_table('births', index='year', columns='gender', aggfunc='sum').plot()
 plt.ylabel('total births per year')
 plt.show()
+
+quartiles = np.percentile(births['births'], [25, 50, 75])
+mu = quartiles[1]
+sig = 0.74 * (quartiles[2] - quartiles[0])
+births = births.query('(births > @mu - 5 * @sig) & (births < @mu + 5 * @sig)')
