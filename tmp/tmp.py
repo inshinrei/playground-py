@@ -6,14 +6,17 @@ import seaborn as sns
 
 plt.style.use('seaborn-whitegrid')
 
-fig = plt.figure()
-ax = plt.axes()
+rng = np.random.RandomState(0)
+# for m in ['o', '.', ',', 'x', '+', 'v', '^', '<', '>', 's', 'd']:
+# plt.plot(rng.rand(5), rng.rand(5), m, label='marker={0}'.format(m))
+# plt.legend(numpoints=1)
+# plt.xlim(0, 1.8)
+# plt.show()
 
-x = np.linspace(0, 10, 1000)
-ax.plot(x, np.sin(x))
+x = rng.randn(100)
+y = rng.randn(100)
+colors = rng.rand(100)
+sizes = 1000 * rng.rand(100)
 
-plt.plot(x, np.sin(x - 0), color='blue')
-plt.plot(x, np.sin(x - 1), color='g')
-plt.plot(x, x + 4, linestyle='-')
-plt.plot(x, x + 6, linestyle='-.')
+plt.scatter(x, y, c=colors, s=sizes, alpha=0.3, cmap='viridis')
 plt.show()
