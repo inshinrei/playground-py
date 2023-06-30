@@ -4,10 +4,16 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
 
-plt.style.use('classic')
+plt.style.use('seaborn-whitegrid')
 
-x = np.linspace(0, 10, 100)
 fig = plt.figure()
-plt.plot(x, np.sin(x), '-')
-plt.plot(x, np.cos(x), '--')
+ax = plt.axes()
+
+x = np.linspace(0, 10, 1000)
+ax.plot(x, np.sin(x))
+
+plt.plot(x, np.sin(x - 0), color='blue')
+plt.plot(x, np.sin(x - 1), color='g')
+plt.plot(x, x + 4, linestyle='-')
+plt.plot(x, x + 6, linestyle='-.')
 plt.show()
