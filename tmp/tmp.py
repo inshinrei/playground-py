@@ -17,3 +17,20 @@ ax.plot(x, np.sin(x), '-b', label='Sine')
 ax.plot(x, np.cos(x), '--r', label='Cosine')
 ax.axis('eq')
 leg = ax.legend()
+
+cities = pd.read_csv('mocks/california_cities.csv')
+
+lat, lon = cities['latd'], cities['longd']
+population, area = cities['population_total'], cities['area_total_km2']
+
+plt.scatter(lon, lat, label=None, c=np.log10(population), cmap='viridis', s=area, linewidth=0, alpha=0.5)
+plt.axis(aspect='equal')
+plt.xlabel('long')
+plt.ylabel('lat')
+plt.colorbar(label='log$_{10}$(population)')
+plt.clim(3, 7)
+
+for area in [10, 300, 500]:
+    plt.scatter([], [], c='k', alpha=0.3, s=area, label=str(area) + ' km$^2$')
+plt.legend(scatterpoints=1, frameon=False, labelspacing=1, title='City Area')
+plt.show()
