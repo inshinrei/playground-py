@@ -54,3 +54,20 @@ def view_cmap(cmap):
     fig, ax = plt.subplots(2, figsize=(6, 2), subplot_kw=dict(xticks=[], yticks=[]))
     ax[0].imshow([colors], extent=[0, 10, 0, 1])
     ax[1].imshow([grayscale], extent=[0, 10, 0, 1])
+
+
+fig0 = plt.figure()
+fig0.subplots_adjust(hspace=0.4, wspace=0.4)
+for i in range(1, 7):
+    ax = fig0.add_subplot(2, 3, i)
+    ax.text(0.5, 0.5, str((2, 3, i)), fontsize=18, ha='center')
+
+mean = [0, 0]
+cov = [[1, 1], [1, 2]]
+x, y = np.random.multivariate_normal(mean, cov, 3000).T
+
+fig1 = plt.figure(figsize=(6, 6))
+grid = plt.GridSpec(4, 4, hspace=0.2, wspace=0.2)
+main_ax = fig1.add_subplot(grid[:-1, 1:])
+y_hist = fig1.add_subplot(grid[:-1, 0], xticklabels=[], sharey=main_ax)
+x_hist = fig1.add_subplot(grid[-1, 1:], yticklabels=[], sharex=main_ax)
