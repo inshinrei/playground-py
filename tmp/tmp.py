@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.colors import LinearSegmentedColormap
 import matplotlib as mpl
 import seaborn as sns
 
@@ -34,3 +35,12 @@ for area in [10, 300, 500]:
     plt.scatter([], [], c='k', alpha=0.3, s=area, label=str(area) + ' km$^2$')
 plt.legend(scatterpoints=1, frameon=False, labelspacing=1, title='City Area')
 plt.show()
+
+
+def grayscale_cmap(cmap):
+    cmap = plt.cm.get_cmap(cmap)
+    colors = cmap(np.arange(cmap.N))
+    RGB_weight = [0.299, 0.587, 0.114]
+    luminance = np.sqrt(np.dot(colors[:, :3] ** 2, RGB_weight))
+    colors[:, :3] = luminance[:, np.newaxis]
+    return LinearSegmentedColormap.from_list(cmap.name + '_gray', colors, cmap.N)
