@@ -1,19 +1,5 @@
-from collections import deque
-
-
 def reverse_words(s: str) -> str:
-    d = deque()
-    result = ''
-    for c in s.strip():
-        if c == ' ':
-            result += ''.join(d) + ' '
-            d.clear()
-            continue
-        d.appendleft(c)
-    if d:
-        result += ''.join(d)
-        d.clear()
-    return result.strip()
+    return ' '.join([w[::-1] for w in s.split(' ')])
 
 
 assert reverse_words("Let's take LeetCode contest") == "s'teL ekat edoCteeL tsetnoc"
