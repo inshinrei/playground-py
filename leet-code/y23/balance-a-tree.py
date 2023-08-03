@@ -17,10 +17,10 @@ def balance_bst(root):
 
     inorder(root)
 
-    def build(l, r):
-        if l > r:
+    def build(left, right):
+        if left > right:
             return None
-        m = (l + r) // 2
-        return TreeNode(nums[m], build(l, m - 1), build(m + 1, r))
+        m = (left + right) // 2
+        return TreeNode(nums[m], build(left, m - 1), build(m + 1, right))
 
     return build(0, len(nums) - 1)
