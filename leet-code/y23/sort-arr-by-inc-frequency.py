@@ -2,7 +2,8 @@ from collections import Counter
 
 
 def frequency_sort(nums):
-    return sorted(nums, key=lambda n: (Counter(nums)[n], -n))
+    c = Counter(nums)
+    return sorted(nums, key=lambda n: (c[n], -n))
 
 
 assert frequency_sort([1, 1, 2, 2, 2, 3]) == [3, 1, 1, 2, 2, 2]
