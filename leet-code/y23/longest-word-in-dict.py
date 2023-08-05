@@ -1,13 +1,13 @@
-def find_longest(s, d):
+def find_longest(s, dict):
     result = ''
-    for w in d:
+    for word in dict:
         i = 0
         for c in s:
-            if i < len(w) and c == w[i]:
+            if i < len(word) and c == word[i]:
                 i += 1
-        if i == len(w):
-            if len(w) > len(result) or len(w) == len(result) and w < result:
-                result = w
+        if i == len(word):
+            if len(word) > len(result) or len(word) == len(result) and word < result:
+                result = word
     return result
 
 
