@@ -1,5 +1,5 @@
 def ways_to_reach_target(target, types):
-    k_mod = 1_000_000_007
+    k_mod = 1_000_000_007  # int(1e9 + 7)
     dp = [1] + [0] * target
     for count, mark in types:
         for j in range(target, -1, -1):
