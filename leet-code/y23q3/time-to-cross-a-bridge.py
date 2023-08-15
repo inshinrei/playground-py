@@ -3,32 +3,37 @@ import math
 
 
 def find(n, _, time):
-    result = 0
-    left_bridge_q = [(-left_to_right - right_to_left, -i) for i, (left_to_right, pick_old, right_to_left, pick_new) in
-                     enumerate(time)]
-    right_bridge_q = []
-    left_workers, right_workers = [], []
-    heapq.heapify(left_bridge_q)
-    while n > 0 or right_bridge_q or right_workers:
-        while left_workers and left_workers[0][0] <= result:
-            i = heapq.heappop(left_workers)[1]
-            left_workers.pop()
-            heapq.heappush(left_bridge_q, (-time[i][0] - time[i][2], -i))
-        while right_workers and right_workers[0][0] <= result:
-            i = heapq.heappop(right_workers)[1]
-            heapq.heappush(right_bridge_q, (-time[i][0] - time[i][2], -i))
-        if right_bridge_q:
-            i = -heapq.heappop(right_bridge_q)[1]
-            result += time[i][2]
-            heapq.heappush(left_workers, (result + time[i][3], i))
-        elif left_bridge_q and n > 0:
-            i = -heapq.heappop(left_bridge_q)[1]
-            result += time[i][0]
-            heapq.heappush(right_workers, (result + time[i][1], i))
-            n -= 1
+    result = free = 0
+    l, ll = [], []
+    r, rr = [], []
+    for i, (x, _, y, _) in enumerate(time):
+        heapq.heappush(ll, (-x - y, -i))
+    while n or r or rr:
+        if not rr and (not r or r[0][0] > free) and (not n or not ll and (not l or l[0][0] > free)):
+            cand = math.inf
+            if n and l:
+                cand = min(cand, l[0][0])
+            if r:
+                cand = min(cand, r[0][0])
+            free = cand
+        while r and r[0][0] <= free:
+            _, i = heapq.heappop(r)
+            heapq.heappush(rr, (-time[i][0] - time[i][2], -i))
+        while l and l[0][0] <= free:
+            _, i = heapq.heappop(l)
+            heapq.heappush(ll, (-time[i][0] - time[i][2], -i))
+        if rr:
+            _, i = heapq.heappop(rr)
+            free += time[-i][2]
+            if n:
+                heapq.heappush(l, (free + time[-i][3], -i))
+            else:
+                result = max(result, free)
         else:
-            result = min(left_workers[0][0] if left_workers and n > 0 else math.inf,
-                         right_workers[0][0] if right_workers else math.inf)
+            _, i = heapq.heappop(ll)
+            free += time[-i][0]
+            heapq.heappush(r, (free + time[-i][1], -i))
+            n -= 1
     return result
 
 
