@@ -19,15 +19,15 @@ def find(board, hand):
             return 0
         board_set = set(_board)
         _hand = ''.join(h for h in _hand if h in board_set)
-        result = math.inf
+        output = math.inf
         if not _hand:
             return result
         for i in range(len(_board)):
             for j, h in enumerate(_hand):
                 new_hand = _hand[:j] + _hand[j + 1:]
                 new_board = _board[:i] + h + _board[i:]
-                result = min(result, 1 + dfs(new_board, new_hand))
-        return result
+                output = min(output, 1 + dfs(new_board, new_hand))
+        return output
 
     result = dfs(board + '#', hand)
     return -1 if result == math.inf else result
