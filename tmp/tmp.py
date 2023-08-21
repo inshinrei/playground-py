@@ -6,17 +6,22 @@ import matplotlib as mpl
 import seaborn as sns
 from sklearn.datasets import fetch_olivetti_faces
 
-plt.style.use('classic')
-ax = plt.axes(xcale='log', yscale='log')
-ax.grid()
-ax.yaxis.set_major_locator(plt.NullLocator())
-ax.xaxis.set_major_formatter(plt.NullFormatter())
+ax = plt.axes(axisbg='#e6e6e6')
+ax.set_axisbelow(True)
+plt.grid(color='w', linestyle='solid')
+for s in ax.spines.values():
+    s.set_visible(False)
+ax.xaxis.tick_bottom()
+ax.yaxis.tick_left()
+ax.tick_params(colors='gray', direction='out')
+for tick in ax.get_xticklabels():
+    tick.set_color('gray')
 
-fig, ax = plt.subplots(5, 5, figsize=(5, 5))
-fig.subplots_adjust(hspace=0, wspace=0)
-faces = fetch_olivetti_faces().images
-for i in range(5):
-    for j in range(5):
-        ax[i, j].xaxis.set_major_loactor(plt.NullLocator())
-        ax[i, j].yaxis.set_major_locator(plt.NullLocator())
-        ax[i, j].imshow(faces[10 * i + j], cmap='bone')
+
+def hist_and_lines():
+    np.random.seed(0)
+    fig, ax = plt.subplots(1, 2, figsize=(11, 4))
+    ax[0].hist(np.random.randn(1000))
+    for i in range(3):
+        ax[1].plot(np.random.rand(10))
+    ax[1].legend(['a', 'b', 'c'], loc='lower left')
