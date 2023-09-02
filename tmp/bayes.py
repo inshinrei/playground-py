@@ -20,3 +20,6 @@ plt.scatter(X[:, 0], X[:, 1], c=y, s=50, cmap='RdBu')
 lim = plt.axis()
 plt.scatter(X_new[:, 0], X_new[:, 1], c=y_new, s=20, cmap='RdBu', alpha=0.1)
 plt.axis(lim)
+
+y_prob = model.predict_proba(X_new)
+y_prob[-8:].round(2)
