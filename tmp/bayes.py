@@ -15,7 +15,7 @@ model = GaussianNB()
 model.fit(X, y)
 rng = np.random.RandomState(0)
 X_new = [-6, -14] + [14, 18] * rng.rand(2000, 2)
-y_new = model.predict(X_new)
+# y_new = model.predict(X_new)
 plt.scatter(X[:, 0], X[:, 1], c=y, s=50, cmap='RdBu')
 lim = plt.axis()
 plt.scatter(X_new[:, 0], X_new[:, 1], c=y_new, s=20, cmap='RdBu', alpha=0.1)
@@ -30,3 +30,19 @@ data = fetch_20newsgroups()
 categories = ['talk.religion.misc', 'soc.religion.christian', 'sci.space', 'comp.graphics']
 train = fetch_20newsgroups(subset='train', categories=categories)
 test = fetch_20newsgroups(subset='test', categories=categories)
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.pipeline import make_pipeline
+
+m_model = make_pipeline(TfidfVectorizer(), MultinomialNB())
+m_model.fit(train.data, train.target)
+labels = m_model.predict(test.data)
+
+from sklearn.metrics import confusion_matrix
+
+mat = confusion_matrix(test.target, labels)
+sns.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False, xticklabels=train.target_names,
+            yticklabels=train.taret_names)
+plt.xlabel('as is l')
+plt.ylabel('predicted l')
