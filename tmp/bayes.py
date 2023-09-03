@@ -23,3 +23,10 @@ plt.axis(lim)
 
 y_prob = model.predict_proba(X_new)
 y_prob[-8:].round(2)
+
+from sklearn.datasets import fetch_20newsgroups
+
+data = fetch_20newsgroups()
+categories = ['talk.religion.misc', 'soc.religion.christian', 'sci.space', 'comp.graphics']
+train = fetch_20newsgroups(subset='train', categories=categories)
+test = fetch_20newsgroups(subset='test', categories=categories)
