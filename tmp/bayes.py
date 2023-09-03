@@ -46,3 +46,8 @@ sns.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False, xticklabels=tra
             yticklabels=train.taret_names)
 plt.xlabel('as is l')
 plt.ylabel('predicted l')
+
+
+def predict_cat(s, _train=train, _model=m_model):
+    p = _model.predict([s])
+    return _train.target_names[p[0]]
