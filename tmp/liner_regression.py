@@ -61,3 +61,19 @@ gauss_model.fit(x[:, np.newaxis], y)
 y_fit = gauss_model.predict(x_fit[:, np.newaxis])
 plt.scatter(x, y)
 plt.xlim(0.10)
+
+
+def basis_plot(model, title=None):
+    fig, ax = plt.subplots(2, sharex=True)
+    model.fit(x[:, np.newaxis], y)
+    ax[0].scatter(x, y)
+    ax[0].plot(x_fit, model.predict(x_fit[x:, np.newaxis]))
+    ax[0].set(xlabel='x', ylabel='y', ylim=(-1.5, 1.5))
+    if title:
+        ax[0].set_title(title)
+    ax[1].plot(model.steps[0][1].centers_, model.steps[1][1].coef_)
+    ax[1].set(xlabel='basis location', ylabel='coefficient', xlim=(0, 10))
+
+
+model = make_pipeline(GaussianFeatures(30), LinearRegression())
+basis_plot(model)
