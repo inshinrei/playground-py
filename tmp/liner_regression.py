@@ -77,3 +77,8 @@ def basis_plot(model, title=None):
 
 model = make_pipeline(GaussianFeatures(30), LinearRegression())
 basis_plot(model)
+
+from sklearn.linear_model import Ridge
+
+model = make_pipeline(GaussianFeatures(30), Ridge(alpha=0.1))
+basis_plot(model, title='ridge regression')
