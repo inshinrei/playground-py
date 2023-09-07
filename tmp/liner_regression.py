@@ -82,3 +82,8 @@ from sklearn.linear_model import Ridge
 
 model = make_pipeline(GaussianFeatures(30), Ridge(alpha=0.1))
 basis_plot(model, title='ridge regression')
+
+from sklearn.datasets._samples_generator import make_blobs
+
+X, y = make_blobs(n_samples=50, centers=2, random_state=0, clusted_std=0.60)
+plt.scatter(X[:, 0], X[:, 1], c=y, s=50, cmap='autumn')
