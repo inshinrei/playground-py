@@ -87,8 +87,3 @@ from sklearn.datasets._samples_generator import make_blobs
 
 X, y = make_blobs(n_samples=50, centers=2, random_state=0, clusted_std=0.60)
 plt.scatter(X[:, 0], X[:, 1], c=y, s=50, cmap='autumn')
-
-from sklearn.datasets._samples_generator import make_blobs
-
-X, y = make_blobs(n_samples=50, centers=2, random_state=0, cluster_std=0.60)
-plt.scatter(X[:, 0], X[:, 1], c=y, s=50, cmap='autumn')
