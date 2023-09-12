@@ -69,3 +69,10 @@ fig.subplots_adjust(left=0.0625, right=0.95, wspace=0.1)
 for axi, N in zip(ax, [60, 120]):
     plot_svm(N, axi)
     axi.set_title('N = {0}'.format(N))
+
+from sklearn.datasets._samples_generator import make_circles
+
+X, y = make_circles(100, factor=.1, noise=.1)
+clf = SVC(kernel='linear').fit(X, y)
+plt.scatter(X[:, 0], X[:, 1], c=y, s=50, cmap='autumn')
+plot_svc_decision_function(clf, plot_support=False)
