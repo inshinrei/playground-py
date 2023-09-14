@@ -92,3 +92,6 @@ def plot_3D(elev=30, azim=30, X=X, y=y):
 
 clf = SVC(kernel='rbf', C=1E6)
 clf.fit(X, y)
+plt.scatter(X[:, 0], X[:, 1], c=y, s=50, cmap='autumn')
+plot_svc_decision_function(clf)
+plt.scatter(clf.support_vectors_[:, 0], clf.support_vectors_[:, 1], s=300, lw=1, facecolors='none')
