@@ -87,4 +87,8 @@ def plot_3D(elev=30, azim=30, X=X, y=y):
     ax.view_init(elev=elev, azim=azim)
     ax.set_xlabel('x')
     ax.set_ylabel('y')
-    # ax.set_zlabel('r')
+    ax.set_zlabel('r')
+
+
+clf = SVC(kernel='rbf', C=1E6)
+clf.fit(X, y)
