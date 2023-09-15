@@ -105,3 +105,21 @@ for axi, C in zip(ax, [10.0, 0.1]):
     axi.scatter(X[:, 0], X[:, 1], c=y, s=50, cmap='autumn')
     plot_svc_decision_function(model, axi)
     axi.scatter(model.support_vectors_[:, 0], model.support_vectors_[:, 1], s=300, lw=1, facecolors='none')
+
+from sklearn.datasets import fetch_lfw_people
+
+faces = fetch_lfw_people(min_faces_per_person=60)
+fig, ax = plt.subplots(3, 5)
+for i, axi in enumerate(ax.flat):
+    axi.imshow(faces.images[i], cmap='bone')
+    axi.set(xticks=[], yticks=[], xlabel=faces.target_names[faces.target[i]])
+
+
+from sklearn.svm import SVC
+from sklearn.decomposition import SparsePCA
+from sklearn.pipeline import make_pipeline
+
+pca = SparsePCA(n_components=150,whiten=True,random_state=42)
+svc=SVC(kernel='rbf',class_weight='balanced')
+model=make_pipeline(pca,svc)
+
