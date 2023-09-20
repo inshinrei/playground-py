@@ -65,3 +65,13 @@ y_true = get_model(x_fit, sigmna=0)
 plt.errorbar(x, y, 0.3, fmt='o', alpha=0.5)
 plt.plot(x_fit, y_fit, '-r')
 plt.plot(x_fit, y_true, '-k', alpha=0.5)
+
+from sklearn.datasets import load_digits
+
+digits = load_digits()
+fig = plt.figure(figsize=(6, 6))
+fig.subplots_adjust(left=0, right=1, bottom=0, top=1, hspace=0.05, wspace=0.05)
+for i in range(64):
+    ax = fig.add_subplot(8, 8, i + 1, xticks=[], yticks=[])
+    ax.imshow(digits.images[i], cmap=plt.cm, interpolation='nearest')
+    ax.text(0, 7, str(digits.target[i]))
