@@ -30,3 +30,11 @@ pca = PCA(n_components=1)
 pca.fit(X)
 X_pca = pca.transform(X)
 X_new = pca.inverse_transform(X_pca)
+
+from sklearn.datasets import load_digits
+
+digits = load_digits()
+pca = PCA(2)
+projected = pca.fit_transform(digits.data)
+plt.scatter(projected[:, 0], projected[:, 1], c=digits.target, edgecolor='none', alpha=0.5,
+            cmap=plt.cm.get_cmap('spectral', 10))
