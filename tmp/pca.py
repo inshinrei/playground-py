@@ -25,3 +25,8 @@ for length, vector in zip(pca.explained_variance_, pca.components_):
     v = vector * 3 * np.sqrt(length)
     draw_vector(pca.mean_, pca.mean_ + v)
 plt.axis('eq')
+
+pca = PCA(n_components=1)
+pca.fit(X)
+X_pca = pca.transform(X)
+X_new = pca.inverse_transform(X_pca)
