@@ -18,3 +18,10 @@ def draw_vector(v0, v1, ax=None):
     ax = ax or plt.gca()
     arrow_props = dict(arrowstyle='->', linewidth=2, shrinkA=0, shrinkB=0)
     ax.annotate('', v1, v0, arrowprops=arrow_props)
+
+
+plt.scatter(X[:, 0], X[:, 1], alpha=0.2)
+for length, vector in zip(pca.explained_variance_, pca.components_):
+    v = vector * 3 * np.sqrt(length)
+    draw_vector(pca.mean_, pca.mean_ + v)
+plt.axis('eq')
