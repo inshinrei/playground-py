@@ -48,3 +48,10 @@ def plot_digits(data):
 
 
 plot_digits(digits.data)
+
+np.random.seed(42)
+noisy = np.random.normal(digits.data, 4)
+plot_digits(noisy)
+pca = PCA(0.50).fit(noisy)
+components = pca.transform(noisy)
+filtered = pca.inverse_tarnsform(components)
