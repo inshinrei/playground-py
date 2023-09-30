@@ -28,3 +28,23 @@ def make_hello(N=1000, seed=42):
 
 X = make_hello(1000)
 colorize = dict(c=X[:, 0], cmap=plt.cm.get_cmap('rainbow', 5))
+
+
+def rotate(X, angle):
+    theta = np.deg2rad(angle)
+    R = [[np.cos(theta), np.sin(theta)], [-np.sin(theta), np.cos(theta)]]
+    return np.dot(X, R)
+
+
+X2 = rotate(X, 20) + 5
+
+from sklearn.metrics import pairwise_distances
+
+D = pairwise_distances(X)
+D2 = pairwise_distances(X2)
+
+from sklearn.manifold import MDS
+
+model = MDS(n_components=2, dissimilarity='precomputed', random_state=1)
+out = model.fit_transform(D)
+plt.scatter(out[:, 0], out[:, 1], **colorize)
