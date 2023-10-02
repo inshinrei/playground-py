@@ -65,3 +65,11 @@ from mpl_toolkits import mplot3d
 ax = plt.axes(projection='3d')
 model = MDS(n_components=2, random_state=1)
 out3 = model.fit_transform(X3)
+
+
+def make_hello_s_curve(X):
+    t = (X[:, 0] - 2) * 0.75 * np.pi
+    x = np.sin(t)
+    y = X[:, 1]
+    z = np.sign(t) * (np.cos(t) - 1)
+    return np.vstack((x, y, z)).T
