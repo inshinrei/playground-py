@@ -59,3 +59,9 @@ def random_projection(X, dimension=3, seed=42):
 
 
 X3 = random_projection(X, 3)
+
+from mpl_toolkits import mplot3d
+
+ax = plt.axes(projection='3d')
+model = MDS(n_components=2, random_state=1)
+out3 = model.fit_transform(X3)
