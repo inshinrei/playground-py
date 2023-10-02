@@ -73,3 +73,15 @@ def make_hello_s_curve(X):
     y = X[:, 1]
     z = np.sign(t) * (np.cos(t) - 1)
     return np.vstack((x, y, z)).T
+
+
+XS = make_hello_s_curve(X)
+
+model = MDS(n_components=2, random_state=2)
+out_s = model.fit_transform(XS)
+
+from sklearn.manifold import LocallyLinearEmbedding
+
+model = LocallyLinearEmbedding(n_neighbors=100, n_components=2, method='modified', eigen_solver='dense')
+out = model.fit_transform(XS)
+fig, ax = plt.subplots()
