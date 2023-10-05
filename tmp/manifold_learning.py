@@ -85,3 +85,38 @@ from sklearn.manifold import LocallyLinearEmbedding
 model = LocallyLinearEmbedding(n_neighbors=100, n_components=2, method='modified', eigen_solver='dense')
 out = model.fit_transform(XS)
 fig, ax = plt.subplots()
+
+from sklearn.datasets import fetch_lfw_people
+
+faces = fetch_lfw_people(min_faces_per_person=30)
+fig, ax = plt.subplots(4, 8, subplot_kw=dict(xticks=[], yticks=[]))
+for i, axi in enumerate(ax.flat):
+    axi.imshow(faces.images[i], cmap='gray')
+
+from sklearn.decomposition import SparsePCA
+
+model = SparsePCA(100).fit(faces.data)
+plt.plot(np.cumsum(model.explained_variance_ratio_))
+
+from sklearn.manifold import Isomap
+
+model = Isomap(n_components=2)
+proj = model.fit_transform(faces.data)
+
+from matplotlib import offsetbox
+
+
+def plot_components(data, model, images=None, ax=None, thumb_frac=0.05, cmap='gray'):
+    ax = ax or plt.gca()
+    proj = model.fit_transform(data)
+    ax.plot(proj[:, 0], proj[:, 1], '.k')
+    if images is not None:
+        min_dist_2 = (thumb_frac * max(proj.max(0) - proj.min(0))) ** 2
+        shown_images = np.array([2 * proj.max(0)])
+        for i in range(data.shape[0]):
+            dist = np.sum((proj[i] - shown_images) ** 2, 1)
+            if np.min(dist) < min_dist_2:
+                continue
+            shown_images = np.vstack([shown_images, proj[i]])
+            imagebox = offsetbox.AnnotationBbox(offsetbox.OffsetImage(images[i], cmap=cmap), proj[i])
+            ax.add_artist(imagebox)
