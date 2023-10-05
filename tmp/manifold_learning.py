@@ -120,3 +120,25 @@ def plot_components(data, model, images=None, ax=None, thumb_frac=0.05, cmap='gr
             shown_images = np.vstack([shown_images, proj[i]])
             imagebox = offsetbox.AnnotationBbox(offsetbox.OffsetImage(images[i], cmap=cmap), proj[i])
             ax.add_artist(imagebox)
+
+
+fix, ax = plt.subplots(figsize=(10, 10))
+plot_components(faces.data, model=Isomap(n_components=2), images=faces.images[:, ::2, ::2])
+
+from sklearn.datasets import fetch_mldata
+
+mnist = fetch_mldata('MNIST original')
+fig, ax = plt.subplots(6, 8, subplot_kw=dict(xticks=[], yticks=[]))
+for i, axi in enumerate(ax.flat):
+    axi.imshow(mnist.data[1250 * i].reshape(28, 28), cmap='gray_r')
+data = mnist.data[::30]
+target = mnist.target[::30]
+model = Isomap(n_components=2)
+proj = model.fit_transform(data)
+plt.scatter(proj[:, 0], proj[:, 1], c=target, cmap=plt.cm.get_cmap('jet', 10))
+plt.colorbar(ticks=range(10))
+
+data = mnist.data[mnist.target == 1][::4]
+fig, ax = plt.subplots(fitsize=(10, 10))
+model = Isomap(n_neighbors=5, n_components=2, eigen_solver='dense')
+plot_components(data, model, images=data.reshape((-1, 28, 28)), ax=ax, thumb_frac=0.05, cmap='gray_r')
