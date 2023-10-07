@@ -15,7 +15,6 @@ k_means = KMeans(n_clusters=4)
 k_means.fit(X)
 y_kmeans = k_means.predict(X)
 plt.scatter(X[:, 0], X[:, 1], c=y_kmeans, s=50, cmap='viridis')
-centers = k_means.cluster_centers_
 
 from sklearn.metrics import pairwise_distances_argmin
 
@@ -31,3 +30,13 @@ def find_clusters(X, n_clusters, seed=2):
             break
         _centers = new_centers
     return _centers, labels
+
+
+centers, labels = find_clusters(X, 4)
+plt.scatter(X[:, 0], X[:, 1], c=labels, s=50, cmap='viridis')
+
+from sklearn.datasets import make_moons
+
+X, y = make_moons(200, noise=.05, random_state=0)
+labels = KMeans(2, random_state=0).fit_predict(X)
+plt.scatter(X[:, 0], X[:, 1], c=labels, s=50, cmap='viridis')
