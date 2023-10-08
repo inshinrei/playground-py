@@ -40,3 +40,36 @@ from sklearn.datasets import make_moons
 X, y = make_moons(200, noise=.05, random_state=0)
 labels = KMeans(2, random_state=0).fit_predict(X)
 plt.scatter(X[:, 0], X[:, 1], c=labels, s=50, cmap='viridis')
+
+from sklearn.cluster import SpectralClustering
+
+model = SpectralClustering(n_clusters=2, offinity='nearest_neighbors', assign_labels='kmeans')
+labels = model.fit_predict(X)
+plt.scatter(X[:, 0], X[:, 1], c=labels, s=50, cmap='viridis')
+
+from sklearn.datasets import load_digits
+
+digits = load_digits()
+
+kmeans = KMeans(n_clusters=10, random_state=0)
+clusters = kmeans.fit_predict(digits.data)
+fig, ax = plt.subplots(2, 5, figsize=(8, 3))
+centers = kmeans.cluster_centers_.reshape(10, 8, 8)
+for axi, center in zip(ax.flat, centers):
+    axi.set(xticks=[], yticks=[])
+
+from scipy.stats import mode
+
+labels = np.zeros_like(clusters)
+for i in range(10):
+    mask = (clusters == i)
+    labels[mask] = mode(digits.target[mask])[0]
+
+from sklearn.metrics import accuracy_score
+
+accuracy_score(digits.target, labels)
+from sklearn.metrics import confusion_matrix
+
+mat = confusion_matrix(digits.target, labels)
+seaborn.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False, xticklabels=digits.target_names,
+                yticklabels=digits.target_names)
