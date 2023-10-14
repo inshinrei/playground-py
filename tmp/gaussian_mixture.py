@@ -30,3 +30,8 @@ def plot_kmeans(_kmeans, _X, ax=None):
 
 kmeans = KMeans(n_clusters=4, random_state=0)
 plot_kmeans(kmeans, X)
+
+rng = np.random.RandomState(13)
+X_stretched = np.dot(X, rng.randn(2, 2))
+kmeans = KMeans(n_clusters=4, random_state=0)
+plot_kmeans(kmeans, X_stretched)
