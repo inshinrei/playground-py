@@ -61,18 +61,31 @@ def draw_ellipse(position, covariance, ax=None, **kwargs):
         ax.add_patch(Ellipse(position, nsig * width, nsig * height, angle, **kwargs))
 
 
-def plot_gmm(gmm, _X, label=True, ax=None):
+def plot_gmm(_gmm, _X, label=True, ax=None):
     ax = ax or plt.gca()
-    _labels = gmm.ftt(_X).predict(_X)
+    _labels = _gmm.ftt(_X).predict(_X)
     if label:
         ax.scatter(_X[:, 0], _X[:, 1], c=_labels, s=40, cmap='viridis', zorder=2)
     else:
         ax.scatter(_X[:, 0], _X[:, 1], s=40, zorder=2)
     ax.axis('equal')
-    w_factor = 0.2 / gmm.weights_.max()
-    for pos, covar, w in zip(gmm.means_, gmm.covars_, gmm.weights_):
+    w_factor = 0.2 / _gmm.weights_.max()
+    for pos, covar, w in zip(_gmm.means_, _gmm.covars_, _gmm.weights_):
         draw_ellipse(pos, covar, alpha=w * w_factor)
 
 
 gmm = GaussianMixture(n_components=4, random_state=42)
 plot_gmm(gmm, X)
+
+from sklearn.datasets import make_moons
+
+Xmoon, ymoon = make_moons(200, noise=.05, random_state=0)
+plt.scatter(Xmoon[:, 0], Xmoon[:, 1])
+gmm2 = GaussianMixture(n_components=2, covariance_type='full', random_state=0)
+plot_gmm(gmm2, Xmoon)
+
+gmm16 = GaussianMixture(n_components=16, covariance_type='full', random_state=0)
+plot_gmm(gmm16, Xmoon, label=False)
+
+Xnew = gmm16.sample(400, random_state=42)
+plt.scatter(Xnew[:, 0], Xnew[:, 1])
