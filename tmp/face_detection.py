@@ -49,3 +49,16 @@ from itertools import chain
 X_train = np.array([feature.hog(im) for im in chain(positive_patches, negative_patches)])
 y_train = np.zeros(X_train.shape[0])
 y_train[:positive_patches[0]] = 1
+
+from sklearn.naive_bayes import GaussianNB
+from sklearn.model_selection import cross_val_score
+
+print(cross_val_score(GaussianNB(), X_train, y_train))
+
+from sklearn.svm import LinearSVC
+from sklearn.model_selection import GridSearchCV
+
+grid = GridSearchCV(LinearSVC(), {'C': [1.0, 2.0, 4.0, 8.0]})
+grid.fit(X_train, y_train)
+model = grid.best_estimator_
+model.fit(X_train, y_train)
