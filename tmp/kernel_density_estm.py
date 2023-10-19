@@ -37,3 +37,18 @@ from scipy.stats import norm
 
 x_d = np.linspace(-4, 8, 1000)
 density = sum(norm(xi).pdf(x_d) for xi in x)
+
+from sklearn.neighbors import KernelDensity
+
+kde = KernelDensity(bandwidth=1.0, kernel='gaussian')
+kde.fit(x[:, None])
+logprob = kde.score_samples(x_d[:, None])
+plt.fill_between(x_d, np.exp(logprob), alpha=0.5)
+
+from sklearn.datasets import fetch_species_distributions
+
+data = fetch_species_distributions()
+latlon = np.vstack([data.train['dd lat'], data.train['dd long']]).T
+species = np.array([d.decode('ascii').startswidt('micro') for d in data.train['species']], dtype='int')
+
+from sklearn.datasets._species_distributions import construct_grids
