@@ -62,3 +62,32 @@ grid = GridSearchCV(LinearSVC(), {'C': [1.0, 2.0, 4.0, 8.0]})
 grid.fit(X_train, y_train)
 model = grid.best_estimator_
 model.fit(X_train, y_train)
+
+test_image = skimage.data.astronaut()
+test_image = skimage.color.rgb2gray(test_image)
+test_image = skimage.transform.rescale(test_image, 0.5)
+test_image = test_image[:160, 40:180]
+plt.imshow(test_image, cmap='gray')
+plt.axis('off')
+
+
+def sliding_window(img, patch_size=positive_patches[0].shape, istep=2, jstep=2, scale=1.0):
+    Ni, Nj = (int(scale * s) for s in patch_size)
+    for i in range(0, img.shape[0] - Ni, istep):
+        for j in range(0, img.shape[1] - Ni, jstep):
+            patch = img[i:i + Ni, j:j + Nj]
+            if scale != 1:
+                patch = transform.resize(patch, patch_size)
+            yield (i, j), patch
+
+
+indicies, patches = zip(*sliding_window(test_image))
+patches_hog = np.array([feature.hog(patch) for patch in patches])
+labels = model.predict(patches_hog)
+fig, ax = plt.subplots()
+ax.imshow(test_image, cmap='gray')
+ax.axis('off')
+Ni, Nj = positive_patches[0].shape
+indicies = np.array(indicies)
+for i, j in indicies[labels == 1]:
+    ax.add_patch(plt.Rectangle((i, j), Nj, Ni, edgecolor='red', alpha=0.3, lw=2, facecolor='none'))
