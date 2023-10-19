@@ -45,3 +45,7 @@ for i, axi in enumerate(ax.flat):
     axi.axis('off')
 
 from itertools import chain
+
+X_train = np.array([feature.hog(im) for im in chain(positive_patches, negative_patches)])
+y_train = np.zeros(X_train.shape[0])
+y_train[:positive_patches[0]] = 1
