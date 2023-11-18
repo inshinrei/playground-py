@@ -20,3 +20,6 @@ def flatten(ids):
 
 
 flatten_udf = F.udf(flatten, paths_type)
+
+
+def new_paths(paths, id):
