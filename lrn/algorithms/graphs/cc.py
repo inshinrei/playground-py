@@ -52,3 +52,16 @@ closeness_udf = F.udf(calculate_closeness, DoubleType())
 vertices = g.vertices.withColumn('ids', F.array())
 cached_vertices = AM.getCachedDataFrame(vertices)
 g2 = GraphFrame(cached_vertices, g.edges)
+for i in range(0, g2.vertices.count()):
+    msg_dst = new_paths_udf(AM.src['ids'], AM.src['id'])
+    msg_src = new_paths_udf(AM.dst['ids'], AM.dst['id'])
+    agg = g2.aggregateMessages(F.collect_set(AM.msg).alias('agg'), sendToSrc=msg_src, sendToDst=msg_dst)
+    res = agg.withColumn('newIds', flatten_udf('agg')).drop('agg')
+    new_vertices = g2.vertices.join(res, on='id', how='left_outer').withColumn('mergedIds',
+                                                                               merge_paths_udf('ids', 'newIds',
+                                                                                               'id')).drop('ids',
+                                                                                                           'newIds').withColumnRenamed(
+        'mergedIds', 'ids')
+    cached_new_vertices = AM.getCachedDataFrame(new_vertices)
+    g2 = GraphFrame(cached_new_vertices, g2.edges)
+g2.vertices.withColumn('closeness', closeness_udf('ids')).sort('closeness', ascending=False).show(truncate=False)
