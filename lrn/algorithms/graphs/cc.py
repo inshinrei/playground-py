@@ -23,6 +23,6 @@ flatten_udf = F.udf(flatten, paths_type)
 
 
 def new_paths(paths, id):
-    paths = [{'id': col1, 'distance': col2 + 1} for col1, colr2 in paths if col1 != id]
+    paths = [{'id': col1, 'distance': col2 + 1} for col1, col2 in paths if col1 != id]
     paths.append({'id': id, 'distance': 1})
     return paths
