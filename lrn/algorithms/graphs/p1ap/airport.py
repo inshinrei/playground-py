@@ -43,3 +43,16 @@ for code in df.schema.fieldNames():
 g.vertices.count()
 g.edges.count()
 g.edges.groupBy().max('deptDelay').show()
+
+g.edges.groupBy().max('deptDelay').show()
+airports_degree = g.outDegrees.withColumnRenamed('id', 'oId')
+full_airports_degree = airports_degree.join(g.vertices, airports_degree.oId == g.vertices.id).sort('outDegree',
+                                                                                                   ascending=False).select(
+    'id', 'name', 'outDegree')
+ax = full_airports_degree.toPandas().head(10).plot(kind='bar', x='id', y='outDegree', legend=None)
+ax.xaxis.set_label_text('')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+plt.savefig('/tmp/airports.svg')
+plt.close()
