@@ -56,3 +56,22 @@ plt.tight_layout()
 plt.show()
 plt.savefig('/tmp/airports.svg')
 plt.close()
+
+delayed_flights = g.edges.filter("src = 'ORD' and deptDelay > 0").groupBy('dst').agg(f.avg('deptDelay'),
+                                                                                     f.count('deptDelay')).withColumn(
+    'averageDelay', f.round(f.col('avg(deptDelay)'), 2)).withColumn('numberOFDelays', f.col('count(deptDelay)'))
+delayed_flights.join(g.vertices, delayed_flights.dst == g.vertices.id).sort(f.desc('averageDelay')).select('dst',
+                                                                                                           'name',
+                                                                                                           'averageDelay',
+                                                                                                           'numberOfDelays').show(
+    n=10, truncate=False)
+from_expr = 'id = "ORD"'
+to_expr = 'id = "CKB"'
+ord_to_ckb = g.bfs(from_expr, to_expr)
+ord_to_ckb = ord_to_ckb.select(f.col('e0.date'), f.col('e0.time'), f.col('e0.flightNumber'), f.col('e0.deptDelay'))
+ax = ord_to_ckb.sort('date').toPandas().plot(kind='bar', x='date', y='deptDelay', legend=None)
+ax.xaxis.set_label_text('')
+plt.tight_layout()
+plt.show()
+plt.savefig('/tmp/ord-ckb.svg')
+plt.close()
