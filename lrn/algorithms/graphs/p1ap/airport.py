@@ -111,3 +111,21 @@ airline_graph = GraphFrame(g.vertices, airline_relationships)
 clusters = airline_graph.labelPropagation(maxIter=10)
 clusters.sort('label').groupBy('label').agg(f.collect_list('id').alias('airports'), f.count('id').alias('count')).sort(
     'count', ascending=False).show(truncate=70, n=10)
+
+all_flights = g.degrees.withColumnRenamed('id', 'aId')
+clusters.filter('label=1606317768706').join(all_flights, all_flights.aId == result.id).sort('degree',
+                                                                                            ascending=False).select(
+    'id', 'name', 'degree').show(truncate=False)
+clusters.filter("label=1219770712067").join(all_flights, all_flights.aId == result.id).sort('degree',
+                                                                                            ascending=False).select(
+    'id', 'name', 'degree').show(truncate=False)
+airlines = g.edges.groupBy('airline').agg(f.count('airline').alias('flights')).sort('alights', ascending=False)
+full_name_airlines = airlines_reference.join(airlines, airlines.airline == airlines_reference.code).select('code',
+                                                                                                           'name',
+                                                                                                           'flights')
+ax = full_name_airlines.toPandas().plot(kind='bar', x='name', y='flights', legend=None)
+ax.xaxis.set_label_text('')
+plt.tight_layout()
+plt.show()
+plt.savefig('/tmp/airlines-count.svg')
+plt.close()
