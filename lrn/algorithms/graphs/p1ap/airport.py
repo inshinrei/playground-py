@@ -96,3 +96,18 @@ result = motifs.withColumn('delta', motifs.bc.deptDelay - motifs.ab.arrDelay).se
 result.select(f.col('ab.src').alias('a1'), f.col('ab.time').alias('a1DeptTime'), f.col('ab.arrDelay'),
               f.col('ab.dst').alias('a2'), f.col('bc.time').alias('a2DeptTime'), f.col('bc.deptDelay'),
               f.col('bc.dst').alias('a3'), f.col('ab.airline'), f.col('ab.flightNumber'), f.col('delta')).show()
+result = g.pageRank(resetProbability=0.15, maxIter=20)
+result.vertices.sort('pagerank', ascending=False).withColumn('pagerank', f.round(f.col('pagerank'), 2)).show(
+    truncate=False, n=100)
+triangles = g.triangleCount().cache()
+pagerank = g.pageRank(resetProbability=0.15, maxIter=20).cache()
+triangles.select(f.col('id').alias('tId'), 'count').join(pagerank.vertices, f.col('tId') == f.col('id')).select('id',
+                                                                                                                'name',
+                                                                                                                'pagerank',
+                                                                                                                'count').sort(
+    'count', ascending=False).withColumn('pagerank', f.round(f.col('pagerank'), 2)).show(truncate=False)
+airline_relationships = g.edges.filter("airline = 'DL'")
+airline_graph = GraphFrame(g.vertices, airline_relationships)
+clusters = airline_graph.labelPropagation(maxIter=10)
+clusters.sort('label').groupBy('label').agg(f.collect_list('id').alias('airports'), f.count('id').alias('count')).sort(
+    'count', ascending=False).show(truncate=70, n=10)
