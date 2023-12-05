@@ -75,3 +75,24 @@ plt.tight_layout()
 plt.show()
 plt.savefig('/tmp/ord-ckb.svg')
 plt.close()
+
+motifs = g.find('(a)-[ab]->(b); (b)-[bc]->(c)').filter("""
+    (b.id = 'SFO') and
+    (ab.date = '2018-05-11' and bc.date = '2018-05-11') and
+    (ab.arrDelay > 30 or bc.deptDelay > 30) and
+    (ab.flightNumber = bc.flightNumber) and
+    (ab.airline = bc.airline) and
+    (ab.time < bc.time)
+""")
+
+
+def sum_dist(d1, d2):
+    return sum([value for value in [d1, d2] if value is not None])
+
+
+sum_dist_udf = f.udf(sum_dist, FloatType())
+result = motifs.withColumn('delta', motifs.bc.deptDelay - motifs.ab.arrDelay).select('ab', 'bc', 'delta').sort('delta',
+                                                                                                               ascending=False)
+result.select(f.col('ab.src').alias('a1'), f.col('ab.time').alias('a1DeptTime'), f.col('ab.arrDelay'),
+              f.col('ab.dst').alias('a2'), f.col('bc.time').alias('a2DeptTime'), f.col('bc.deptDelay'),
+              f.col('bc.dst').alias('a3'), f.col('ab.airline'), f.col('ab.flightNumber'), f.col('delta')).show()
