@@ -129,3 +129,25 @@ plt.tight_layout()
 plt.show()
 plt.savefig('/tmp/airlines-count.svg')
 plt.close()
+
+
+def find_scc_components(g, airline):
+    airline_relationships = g.edges[g.edges.airline == airline]
+    airline_graph = GraphFrame(g.verticies, airline_relationships)
+    scc = airline_graph.stronglyConnectedComponents(maxIter=20)
+    return scc.groupBy('component').agg(f.count('id').alias('size')).sort('size', ascending=False).take(1)[0]['size']
+
+
+airline_scc = [(airline, find_scc_components(g, airline)) for airline in airlines.toPandas()['airline'].tolist()]
+airline_scc_df = spark.createDataFrame(airline_scc, ['id', 'sccCount'])
+airline_reach = (airline_scc_df.join(full_name_airlines, full_name_airlines.code == airline_scc_df.id)).select('code',
+                                                                                                               'name',
+                                                                                                               'flights',
+                                                                                                               'sccCount').sort(
+    'sccCount', ascending=False)
+ax = airline_reach.toPadas().plot(kind='bar', x='name', y='sccCount', legend=None)
+ax.xaxis.set_label_text('')
+plt.tight_layout()
+plt.show()
+plt.savefig('/tmp/airlines-scc-count.svg')
+plt.close()
