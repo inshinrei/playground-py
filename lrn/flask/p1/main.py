@@ -1,23 +1,24 @@
-from flask import Flask, render_template, session, redirect, url_for, flash
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
+import os
+import click
+from flask_migrate import Migrate
+from app import create_app, db
+from app.models import User, Role
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'str'
-
-
-class NameForm(FlaskForm):
-    name = StringField('What is your name?', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+app = create_app(os.getenv('FLASK_CONFIG') or 'default')
+migrate = Migrate(app, db)
 
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    form = NameForm()
-    if form.validate_on_submit():
-        old_name = session.get('name')
-        if old_name is not None and old_name != form.name.data:
-            flash('You have changed your name')
-        session['name'] = form.name.data
-        return redirect(url_for('base'))
+@app.shell_context_processor
+def make_shell_context():
+    return dict(db=db, User=User, Role=Role)
+
+
+@app.cli.command()
+@click.argument('test_names', nargs=-1)
+def test(test_names):
+    import unittest
+    if test_names:
+        tests = unittest.TestLoader().loadTestsFromNames(test_names)
+    else:
+        tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner(verbosity=2).run(tests)
