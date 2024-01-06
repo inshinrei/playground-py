@@ -1,0 +1,7 @@
+dear {{ user.username }}
+
+welcome to app!
+
+to confirm your account please click on the link below:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}

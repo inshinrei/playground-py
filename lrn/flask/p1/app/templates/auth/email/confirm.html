@@ -1,0 +1,8 @@
+<p>dear {{ user.username }}</p>
+<p>welcome to app!</p>
+<p>
+    to confirm your account please
+    <a href="{{ url_for('auth.confirm', token=token, _external=True) }}">confirm</a>
+</p>
+<p>alternatively, you can paste the link below in your browser</p>
+<p>{{ url_for('auth.confirm', token=token, _external=True) }}</p>
