@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 
 from . import auth
-from .forms import LoginForm, RegistrationForm, ChangePasswordForm
+from .forms import LoginForm, RegistrationForm, ChangePasswordForm, PasswordResetForm
 from .. import db
 from ..email import send_email
 from ..models import User
@@ -94,3 +94,33 @@ def change_password():
         else:
             flash('invalid password')
     return render_template('auth/change_password.html', form=form)
+
+
+@auth.route('/reset', methods=['GET', 'POST'])
+def password_reset_request():
+    if not current_user.is_anonymous:
+        return redirect(url_for('main.index'))
+    form = PasswordResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data.lower()).first()
+        if user:
+            token = user.generate_confirmation_token()
+            send_email('reset your password', 'auth/email/reset_password', user=user, token=token)
+            flash('an email has been sent')
+            return redirect(url_for('auth.login'))
+    return render_template('auth/reset_password.html', form=form)
+
+
+@auth.route('/reset/<token>', methods=('GET', 'POST'))
+def password_reset(token):
+    if not current_user.is_anonymous:
+        return redirect(url_for('main.index'))
+    form = PasswordResetForm()
+    if form.validate_on_submit():
+        if User.reset_password_token(token, form.password.data):
+            db.session.commit()
+            flash('updated')
+            return redirect(url_for('auth.login'))
+        else:
+            return redirect(url_for('main.index'))
+    return render_template('auth/reset_password.html', form=form)

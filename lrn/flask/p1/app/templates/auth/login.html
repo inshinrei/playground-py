@@ -9,6 +9,10 @@
     {{ wtf.quick_form(form) }}
     <br>
     <p>
+        forgot your password?
+        <a href="{{ url_for('auth.password_reset_request') }}">reset</a>
+    </p>
+    <p>
         new user?
         <a href="{{ urf_for('auth.register') }}">register</a>
     </p>
