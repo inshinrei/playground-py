@@ -145,6 +145,7 @@ class User(UserMixin, db.Model):
         s = TimedSerializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token.encode('utf-8'))
+
         except:
             return False
         if data.get('change_email') != self.id:
