@@ -12,8 +12,7 @@ from ..models import User, Role, Post, Permission
 def index():
     form = PostForm()
     if current_user.can(Permission.WRITE) and form.validate_on_submit():
-        post = Post(body=form.body.data,
-                    author=current_user._get_current_object())
+        post = Post(body=form.body.data, author=current_user._get_current_object())
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('.index'))
@@ -23,8 +22,9 @@ def index():
 
 @main.route('/user/<username>')
 def user(username):
-    user = User.query.filter_by(username=username).first_or_404()()
-    return render_template('user.html', user=user)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = user.posts.order_by(Post.timestamp.desc()).all()
+    return render_template('user.html', user=user, posts=posts)
 
 
 @main.route('/edit-profile', methods=['GET', 'POST'])
