@@ -14,6 +14,7 @@ class Config:
     MAIL_SENDER = 'app'
     ADMIN = os.environ.get('ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    POSTS_PER_PAGE = 20
 
     @staticmethod
     def init_app(app):
