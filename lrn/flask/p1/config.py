@@ -15,6 +15,7 @@ class Config:
     ADMIN = os.environ.get('ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     POSTS_PER_PAGE = 20
+    FOLLOWERS_PER_PAGE = 50
 
     @staticmethod
     def init_app(app):
