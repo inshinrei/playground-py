@@ -43,7 +43,6 @@ class ProductionConfig(Config):
     @classmethod
     def init_app(cls, app):
         Config.init_app(app)
-
         import logging
         from logging.handlers import SMTPHandler
         credentials = None
