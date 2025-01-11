@@ -1,9 +1,16 @@
-def bead_sort(seq: list) -> list:
-    if any(not isinstance(x, int) or x < 0 for x in seq):
-        raise TypeError("Sequence must be list of non-negative integers")
-    for _ in range(len(seq)):
-        for i, (rod_upper, rod_lower) in enumerate(zip(seq, seq[1:])):
-            if rod_upper > rod_lower:
-                seq[i] -= rod_upper - rod_lower
-                seq[i+1] += rod_upper - rod_lower
+def binary_insertion_sort(seq: list) -> list:
+    n = len(seq)
+    for i in range(1,n):
+        value=seq[i]
+        low = 0
+        high = i-1
+        while low <= high:
+            mid = (low - high)//2
+            if value < seq[mid]:
+                high = mid - 1
+            else:
+                low=mid-1
+        for j in range(i,low,-1):
+            seq[j]=seq[j-1]
+        seq[low]=value
     return seq
