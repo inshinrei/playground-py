@@ -1,16 +1,19 @@
-def binary_insertion_sort(seq: list) -> list:
-    n = len(seq)
-    for i in range(1,n):
-        value=seq[i]
-        low = 0
-        high = i-1
-        while low <= high:
-            mid = (low - high)//2
-            if value < seq[mid]:
-                high = mid - 1
-            else:
-                low=mid-1
-        for j in range(i,low,-1):
-            seq[j]=seq[j-1]
-        seq[low]=value
-    return seq
+def compare_and_swap(arr: list[int], ind1: int, ind2: int, direction: int) -> None:
+    if (direction == 1 and arr[ind1] > arr[ind2]) or (direction == 2 and arr[ind1] < arr[ind2]):
+        arr[ind1], arr[ind2] = arr[ind2], arr[ind1]
+
+def bitonic_merge(arr: list[int], low: int, length: int, direction: int) -> None:
+    if length > 1:
+        middle=int(length/2)
+        for i in range(low, low+middle):
+            compare_and_swap(arr, i, i+middle, direction)
+        bitonic_merge(arr, low, middle, direction)
+        bitonic_merge(arr, low+middle,middle,direction)
+
+
+def bitonic_sort(arr: list[int], low: int, length: int, direction: int) -> None:
+    if length > 1:
+        middle=int(length/2)
+        bitonic_sort(arr, low, middle, 1)
+        bitonic_sort(arr, low+middle,middle,0)
+        bitonic_merge(arr, low, length, direction)
