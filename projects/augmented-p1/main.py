@@ -27,7 +27,28 @@ class ObjLoader:
                     v = v[0], v[2], v[1]
                 self.vertices.append(v)
             elif values[0] == "vn":
-                pass
+                v = list(map(float, values[1:4]))
+                if swapyz:
+                    v = v[0], v[2], v[1]
+                self.normals.append(v)
+            elif values[0] == "vt":
+                self.texcoords.append(map(float, values[1:3]))
+            elif values[0] == "f":
+                face = []
+                texcoords = []
+                norms = []
+                for v in values[1:]:
+                    w = v.split("/")
+                    face.append(int(w[0]))
+                    if len(w) >= 2 and len(w[1]) > 0:
+                        texcoords.append(int(w[1]))
+                    else:
+                        texcoords.append(0)
+                    if len(w) >= 3 and len(w[2]) > 0:
+                        norms.append(int(w[2]))
+                    else:
+                        norms.append(0)
+                self.faces.append((face, norms, texcoords))
 
 
 def main():
