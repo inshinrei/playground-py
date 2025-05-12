@@ -6,7 +6,6 @@ allowed_extensions = (".png", ".heic", ".jpg", ".jpeg")
 
 
 def run_rename(dir=run_dir):
-    print(dir)
     for file in os.listdir(dir):
         path = dir + "/" + file
         if os.path.isdir(path):
