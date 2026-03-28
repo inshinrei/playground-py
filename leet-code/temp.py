@@ -1,27 +1,16 @@
-SUBARRAY_LEN = 3
+import collections
 
 
 def countStableSubarrays(capacity: list[int]) -> int:
+    lookup = collections.Counter()
+    buffer = collections.deque()
     count = 0
+    current = 0
 
-    for i in range(len(capacity)):
-        for j in range(i + SUBARRAY_LEN, len(capacity) + 1):
-            if considered_stable(capacity[i:j]):
-                count += 1
-
+    for x in capacity:
+        current += x
+        count += lookup[(current - x * 2, x)]
+        if len(buffer) > 0:
+            lookup[buffer.popleft()] += 1
+        buffer.append((current, x))
     return count
-
-
-def considered_stable(arr: list[int]) -> bool:
-    print(arr, sum(arr[1 : len(arr)]))
-
-    if arr[0] != arr[-1]:
-        return False
-
-    if arr[0] != sum(arr[1 : len(arr) - 1]):
-        return False
-
-    return True
-
-
-countStableSubarrays([9, 3, 3, 3, 9])
