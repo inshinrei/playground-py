@@ -2,18 +2,12 @@ SUBARRAY_LEN = 3
 
 
 def countStableSubarrays(capacity: list[int]) -> int:
-    subarrays = [
-        capacity[i:j]
-        for i in range(len(capacity))
-        for j in range(i + SUBARRAY_LEN, len(capacity) + 1)
-    ]
-
     count = 0
 
-    for arr in subarrays:
-        print(arr, considered_stable(arr))
-        if considered_stable(arr):
-            count += 1
+    for i in range(len(capacity)):
+        for j in range(i + SUBARRAY_LEN, len(capacity) + 1):
+            if considered_stable(capacity[i:j]):
+                count += 1
 
     return count
 
