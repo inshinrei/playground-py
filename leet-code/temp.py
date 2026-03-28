@@ -1,26 +1,33 @@
-from typing import Optional
+SUBARRAY_LEN = 3
 
 
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+def countStableSubarrays(capacity: list[int]) -> int:
+    subarrays = [
+        capacity[i:j]
+        for i in range(len(capacity))
+        for j in range(i + SUBARRAY_LEN, len(capacity) + 1)
+    ]
+
+    count = 0
+
+    for arr in subarrays:
+        print(arr, considered_stable(arr))
+        if considered_stable(arr):
+            count += 1
+
+    return count
 
 
-class Solution:
-    def mergeTwoLists(
-        self, list1: Optional[ListNode], list2: Optional[ListNode]
-    ) -> Optional[ListNode]:
-        dummy = ListNode(0)
-        current = dummy
-        while list1 and list2:
-            if list1.val <= list2.val:
-                current.next = list1
-                list1 = list1.next
-            else:
-                current.next = list2
-                list2 = list2.next
-            current = current.next
+def considered_stable(arr: list[int]) -> bool:
+    print(arr, sum(arr[1 : len(arr)]))
 
-        current.next = list1 or list2
-        return dummy.next
+    if arr[0] != arr[-1]:
+        return False
+
+    if arr[0] != sum(arr[1 : len(arr) - 1]):
+        return False
+
+    return True
+
+
+countStableSubarrays([9, 3, 3, 3, 9])
