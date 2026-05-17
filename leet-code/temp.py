@@ -1,16 +1,27 @@
-import collections
+from typing import List
 
 
-def countStableSubarrays(capacity: list[int]) -> int:
-    lookup = collections.Counter()
-    buffer = collections.deque()
-    count = 0
-    current = 0
+def third_max(nums: List[int]) -> int:
+    fm, sm, tm = [None] * 3
+    for n in nums:
+        tfm = n == fm
+        tsm = n == sm
+        if tfm or tsm:
+            continue
+        if fm == None or n > fm:
+            tm = sm
+            sm = fm
+            fm = n
+        elif sm == None or n > sm:
+            tm = sm
+            sm = n
+        elif tm == None or n > tm:
+            tm = n
 
-    for x in capacity:
-        current += x
-        count += lookup[(current - x * 2, x)]
-        if len(buffer) > 0:
-            lookup[buffer.popleft()] += 1
-        buffer.append((current, x))
-    return count
+    if tm != None:
+        return tm
+    else:
+        return fm
+
+
+third_max([3, 2, 1])
