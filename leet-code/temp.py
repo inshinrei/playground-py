@@ -1,18 +1,12 @@
 from typing import List
 
 
-def produce_except_self(nums: List[int]) -> List[int]:
-    pre = 1
-    out = [1] * len(nums)
-    for index in range(len(nums)):
-        n = nums[index]
-
-        out[index] = pre
-        pre *= n
-
-    post = 1
-    for i in range(len(nums) - 1, -1, -1):
-        v = nums[i]
-        out[i] *= post
-        post *= v
-    return out
+def max_sub(nums: List[int]) -> List[int]:
+    max_sub = nums[0]
+    curr_sum = 0
+    for n in nums:
+        if curr_sum < 0:
+            curr_sum = 0
+        curr_sum += n
+        max_sub = max(max_sub, curr_sum)
+    return max_sub
