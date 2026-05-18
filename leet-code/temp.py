@@ -1,27 +1,18 @@
 from typing import List
 
 
-def third_max(nums: List[int]) -> int:
-    fm, sm, tm = [None] * 3
-    for n in nums:
-        tfm = n == fm
-        tsm = n == sm
-        if tfm or tsm:
-            continue
-        if fm == None or n > fm:
-            tm = sm
-            sm = fm
-            fm = n
-        elif sm == None or n > sm:
-            tm = sm
-            sm = n
-        elif tm == None or n > tm:
-            tm = n
+def produce_except_self(nums: List[int]) -> List[int]:
+    pre = 1
+    out = [1] * len(nums)
+    for index in range(len(nums)):
+        n = nums[index]
 
-    if tm != None:
-        return tm
-    else:
-        return fm
+        out[index] = pre
+        pre *= n
 
-
-third_max([3, 2, 1])
+    post = 1
+    for i in range(len(nums) - 1, -1, -1):
+        v = nums[i]
+        out[i] *= post
+        post *= v
+    return out
