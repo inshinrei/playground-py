@@ -2,11 +2,16 @@ from typing import List
 
 
 def test(nums: List[int]) -> List[int]:
-    res = max(nums)
-    curr_min, curr_max = 1, 1
-    for n in nums:
-        tmp_max = n * curr_max
-        curr_max = max(n * curr_max, n * curr_min, n)
-        curr_min = min(tmp_max, n * curr_min, n)
-        res = max(res, curr_max, curr_min)
+    res = nums[0]
+    l, r = 0, len(nums) - 1
+    while l <= r:
+        if nums[l] < nums[r]:
+            res = min(res, nums[l])
+            break
+        m = (l + r) // 2
+        res = min(res, nums[m])
+        if nums[m] >= nums[l]:
+            l = m + 1
+        else:
+            r = m - 1
     return res
